@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}" type="image/x-icon">
+  <title>Cars Forever</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Car Data Analysis - Power BI">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js" integrity="sha512-sW/w8s4RWTdFFSduOTGtk4isV1+190E/GghVffMA9XczdJ2MDzSzLEubKAs5h0wzgSJOQTRYyaz73L3d6RtJSg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/powerbi-client/2.15.1/powerbi.min.js" integrity="sha512-OWIl8Xrlo8yQjWN5LcMz5SIgNnzcJqeelChqPMIeQGnEFJ4m1fWWn668AEXBrKlsuVbvDebTUJGLRCtRCCiFkg==" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</head>
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+   <!--NAVIGATION BAR-->
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar" aria-label="Menu" >
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>   
+        <span class="icon-bar"></span>                            
+      </button>
+      <div class="text-left">
+        <a class="navbar-brand" href="#myPage"><strong>Cars Forever</strong></a>
+      </div>
+     
+    </div>
+    <div class="collapse navbar-collapse text-right" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#reports" id="defaultOpen">Reports</a></li>
+        <li><a href="#sales">Sales</a></li>
+        <li><a href="#event">Events</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Container (Reports Section) -->
+<div id="reports" class="container-fluid text-center">
+  <h2>Reports</h2>
+  <p>Apply filters, personalize visuals and customize graphs</p>
+  <section id="report-container" class="embed-container  col-sm-12" >
+</section>
+  
+</div>
+
+<!-- Accordians -->
+    <div class="faq">
+      <!-- Inserting New Data -->
+      <button class="accordion">Insert New Data</button>
+   <div class="panel text-center">
+    <div class="text-center">
+      <h2>Insert New Data</h2>
+      <h4>Want to add new data to the Database?</h4>
+    <br>
+          <a href="https://apps.powerapps.com/play/77e4777f-02f7-4c60-b990-5f7176959eec?tenantId=26de3d8f-79f7-4642-8217-bbd1e0bb3d8a" target="_blank" alt="Link to Power APP">
+          <button  class="btn btn-lg">Insert Data</button></a>
+          
+    </div>
+    <br>
+   </div>
+   <br>
+    <!-- Customize Feature-->
+   <button class="accordion">Customize</button>
+   <div class="panel text-center">
+      <h2>Customize</h2>
+      <p>Click here to browse for a new csv file</p>
+       <!-- Form to add New File -->
+    <form action='#' method="POST" enctype='multipart/form-data'>
+     <label>Browse for csv file:<input type="file" accept=".csv" name='file' class="btn btn-lg"></label>
+      <input type="hidden" name="switch" value="123">
+      <button type="submit" class="btn btn-lg text-left">ADD NEW GRAPH</button>
+
+    </form>
+    <br>
+   </div>
+   <br>
+    <!-- Motto of the Company -->
+      <button class="accordion">Our Motto</button>
+   <div class="panel text-center">
+       <h2>Our Motto</h2><br>
+       <div class="row slideanim" class="container-fluid text-center">
+         <div class="col-sm-3">
+             <span class="glyphicon glyphicon-globe logo-small"></span>
+             <h4>Global</h4>
+      
+           </div>
+         <div class="col-sm-3">
+           <span class="glyphicon glyphicon-wrench logo-small"></span>
+           <h4>Top Machinery</h4>
+         
+         </div>
+         <div class="col-sm-3">
+           <span class="glyphicon glyphicon-lock logo-small"></span>
+           <h4>Safety</h4>
+          
+         </div>
+         <div class="col-sm-3">
+           <span class="glyphicon glyphicon-leaf logo-small"></span>
+           <h4>Green</h4>
+          
+         </div>
+       </div>
+   </div>
+   <br>
+    <!-- Portfolio showcasing pictures -->
+   <button class="accordion">Portfolio</button>
+   <div class="panel">
+       <div id="portfolio" class="container-fluid text-center bg-grey">
+           <h2>Portfolio</h2><br>
+           <h4>Our Top Models</h4>
+           <div class="row text-center slideanim">
+             <div class="col-sm-4">
+               <div class="thumbnail">
+                 <img src="{{ url_for('static', filename='img/car1.jpg') }}"alt="car1" width="400" height="300">
+               </div>
+             </div>
+             <div class="col-sm-4">
+               <div class="thumbnail">
+                 <img src="{{ url_for('static', filename='img/car2.jpeg') }}" alt="New York" width="400" height="300">
+               </div>
+             </div>
+             <div class="col-sm-4">
+               <div class="thumbnail">
+                 <img src="{{ url_for('static', filename='img/car3.jpeg') }}" alt="San Francisco" width="400" height="300">
+               </div>
+             </div>
+           </div>
+   </div></div>
+   <br>
+        </div>
+
+
+<!-- Container (Sales Section) -->
+<div id="sales" class="container-fluid text-center">
+  <h2>SALES</h2>
+  <p>Apply filters, personalize visuals and customize graphs</p>
+  <div class="col-sm-6">
+    <main>
+    <centre><canvas id="G1"></canvas></centre>
+    </div>
+    <div class="col-sm-6">
+      <centre><canvas id="G2"></canvas></centre>
+      </div>
+    </main>
+      <br><br>
+      <main>
+      <div class="col-sm-6">
+        <centre><canvas id="G3"></canvas></centre>
+        </div>
+        <div class="col-sm-6">
+          <centre><canvas id="G4"></canvas></centre>
+          </div> 
+        </main>
+</div>
+ <!--upcoming events -->
+   <div id="event" class="container-fluid">
+    <div class="text-center">
+      <h2>Upcoming Events</h2><br>
+      <div class="row slideanim">
+        <div class="col-sm-4 col-xs-12">
+          <div class="panel panel-default text-center">
+            <div class="panel-heading">
+              <h4><strong>Model - XA Release Event</strong></h4>
+            </div>
+            <div class="panel-body">
+             <img src="{{ url_for('static', filename='img/event1.jpg') }}" alt="event1" width="300" height="200">
+              <p><strong>Italy</strong></p>
+            </div>
+            <div class="panel-footer">
+              <h4>15th June, 2022</h4>
+      
+            </div>
+          </div>      
+        </div>     
+        <div class="col-sm-4 col-xs-12">
+          <div class="panel panel-default text-center">
+            <div class="panel-heading">
+              <h4><strong>20 Year Anniversary</strong></h4>
+            </div>
+            <div class="panel-body">
+              <img src="{{ url_for('static', filename='img/event2.jpg') }}" alt="event2" width="300" height="200">
+              <p><strong>Headquarters</strong></p>
+            </div>
+            <div class="panel-footer">
+              <h4>29th June, 2022</h4>
+            </div>
+          </div>      
+        </div>       
+        <div class="col-sm-4 col-xs-12">
+          <div class="panel panel-default text-center">
+            <div class="panel-heading">
+              <h4><strong>Inaugaration of Manufacturing Unit</strong></h4>
+            </div>
+            <div class="panel-body">
+              <img src="{{ url_for('static', filename='img/event3.jpeg') }}" alt="event3" width="300" height="200">
+              <p><strong>India</strong></p>
+            </div>
+            <div class="panel-footer">
+              <h4>8th July, 2022</h4>
+            </div>
+          </div>      
+        </div>    
+            
+    </div>
+  
+    </div>
+  </div>
+</div>
+
+</div>
+<div id="myCarousel" class="carousel slide text-center" data-ride="carousel">
+
+
+  <!--Customer Feedback Section-->
+  <h2>Customer Feedback</h2>
+  <!-- Indicators -->
+
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner" >
+    <div class="item active">
+      <h4>"Happy with experience and pleasure to drive in the city either highway, it has a maximum amount of leg space and very luxurious."<br><span>Michael John, Executive Manager, Comment Box</span></h4>
+    </div>
+    <div class="item">
+      <h4>"Throttling diesel engine goes on with power on road. Its very nice to drive the smooth ongoing German Car. Design must be appreciated.<br> And those lights are so much beautiful eyes."<br><span>Harry M, Salesman, Rep Inc</span></h4>
+    </div>
+    <div class="item">
+      <h4>"It gives you a great ride experience due to the comfortable and it comes with all the needed features.<br> Drives are smooth whether you are driving in the city or on the highway."<br><span>Montana Styles, Actor</span></h4>
+    </div>
+  </div>
+
+  <!-- Left and right controls -->
+  <a class="left carousel-control" href="#myCarousel"  data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="right carousel-control" href="#myCarousel"  data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+</div>
+<!-- Contact -->
+<div id="contact" class="container-fluid bg-grey">
+  <h2 class="text-center">CONTACT</h2>
+  <div class="row">
+    <div class="col-sm-5">
+      <p>Contact us and we'll get back to you within 24 hours.</p>
+      <p><span class="glyphicon glyphicon-map-marker"></span> Chicago, US</p>
+      <p><span class="glyphicon glyphicon-phone"></span> +00 1515151515</p>
+      <p><span class="glyphicon glyphicon-envelope"></span> myemail@something.com</p>
+    </div>
+    <div class="col-sm-7 slideanim">
+      <div class="row">
+        <div class="col-sm-6 form-group">
+          <label>Name:</label>
+         <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+        </div>
+        <div class="col-sm-6 form-group">
+          <label>Email:</label>
+             <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+        </div>
+      </div>
+      <label> Comments:</label>
+        <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
+      <div class="row">
+        <div class="col-sm-12 form-group">
+          <button class="btn btn-default pull-right" type="submit">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer class="container-fluid text-center">
+  <a href="#myPage" title="To Top">
+    <span class="glyphicon glyphicon-chevron-up"></span>
+</footer>
+<!-- END OF WEBPAGE -->
+<script>
+$(document).ready(function(){
+  // Add smooth scrolling to all links in navbar + footer link
+  $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+      // Prevent default anchor click behavior
+      event.preventDefault();
+
+      // Store hash
+      var hash = this.hash;
+
+      // Using jQuery's animate() method to add smooth page scroll
+      // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 900, function(){
+   
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = hash;
+      });
+    } // End if
+  });
+  
+  $(window).scroll(function() {
+    $(".slideanim").each(function(){
+      var pos = $(this).offset().top;
+
+      var winTop = $(window).scrollTop();
+        if (pos < winTop + 600) {
+          $(this).addClass("slide");
+        }
+    });
+  });
+})
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    } 
+  });
+}
+//Plugin to provide background color to graphs
+const plugin = {
+  id: 'custom_canvas_background_color',
+  beforeDraw: (chart) => {
+    const ctx = chart.canvas.getContext('2d');
+    ctx.save();
+    ctx.globalCompositeOperation = 'destination-over';
+    ctx.fillStyle = '#f9f5ec';
+    ctx.fillRect(0, 0, chart.width, chart.height);
+    ctx.restore();
+  }
+};
+  
+//Parsing the lists coming from backend
+    var x1="{{x1}}"
+    var y1=JSON.parse("{{y1}}")
+    var x2="{{x2}}"
+    var y2=JSON.parse("{{y2}}")
+    var x3=JSON.parse("{{x3}}")
+    var y3=JSON.parse("{{y3}}")
+    var x4="{{x4}}"
+    var p=JSON.parse("{{p}}")
+    var di=JSON.parse("{{di}}")
+//string handling
+var a=x1.split(",");
+for(let i=0; i<a.length; i++) {
+  var x=a[i].length
+  if(i==a.length-1)
+  a[i]=a[i].substring(6,x-6);
+  else
+  a[i]=a[i].substring(6,x-5);
+}
+var b=x2.split(",");
+for(let i=0; i<b.length; i++) {
+  var x=b[i].length
+  if(i==b.length-1)
+  b[i]=b[i].substring(6,x-6);
+  else
+  b[i]=b[i].substring(6,x-5);
+}
+var c=x4.split(",");
+for(let i=0; i<c.length; i++) {
+  var x=c[i].length
+  if(i==c.length-1)
+  c[i]=c[i].substring(6,x-6);
+  else
+  c[i]=c[i].substring(6,x-5);
+}
+//defining canvas element and configuration for chart
+      let canvaselement1=document.getElementById("G1").getContext('2d');
+      
+      var config1 ={
+          type: "bar",
+          data: {
+              labels : a,
+              datasets: [{ data: y1,
+                label: "Cities",
+              backgroundColor: [
+              '#26abff',
+             
+                  ],
+          }]
+          },
+          plugins: [plugin],
+          options: {
+              plugins: {
+                  title: {
+                      display: true,
+                      text: "City vs Sales"
+                  },
+      
+              },
+             
+          }
+        };
+        //defining chart
+        var G1=new Chart(canvaselement1,config1);
+   //other 3 charts are added in similar way   
+      let canvaselement2=document.getElementById("G2").getContext('2d');
+      
+      var config2 ={
+          type: "bar",
+          data: {
+              labels : b,
+              datasets: [{ data: y2,
+                label: "Brands",
+              backgroundColor: [
+              '#cc8899',
+
+                  ],
+          }]
+          },
+          plugins: [plugin],
+          options: {
+              plugins: {
+                  title: {
+                      display: true,
+                      text: "Brand vs Sales"
+                  },
+      
+              },
+             
+          }
+        };
+        var G2=new Chart(canvaselement2,config2);
+      
+      let canvaselement3=document.getElementById("G3").getContext('2d');
+      
+      var config3 ={
+          type: "bar",
+          data: {
+              labels : x3,
+              datasets: [{ data: y3,
+                label: "Year",
+              backgroundColor: [
+            
+              '#ffff33',
+            
+                  ],
+          }]
+          },
+          plugins: [plugin],
+          options: {
+              plugins: {
+                  title: {
+                      display: true,
+                      text: "Year vs Sales"
+                  },
+      
+              },
+             
+          }
+        };
+        var G3=new Chart(canvaselement3,config3);
+        
+      let canvaselement4=document.getElementById("G4").getContext('2d');
+      
+      var config4 ={
+          type: "line",
+          data: {
+              labels : c,
+              datasets: [{ data: p,
+                label: "Petrol",
+              backgroundColor: [
+              '#26abff',
+              '#cc8899',
+                  ],
+          },{ data: di,
+                label: "Diesel",
+              backgroundColor: [
+              '#26abff',
+              '#cc8899',
+
+                  ],
+          }]
+          },
+          plugins: [plugin],
+          options: {
+              plugins: {
+                  title: {
+                      display: true,
+                      text: "Petrol & Diesel Trends in Cities"
+                  },
+      
+              },
+             
+          }
+        };
+        var G4=new Chart(canvaselement4,config4);
+
+
+</script>
+</body>
+</html>

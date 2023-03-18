@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="{{ url_for('static', filename='img/icon.png') }}" type="image/x-icon">
+  <title>Cars Forever-Customize</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.js" integrity="sha512-Lii3WMtgA0C0qmmkdCpsG0Gjr6M0ajRyQRQSbTF6BsrVh/nhZdHpVZ76iMIPvQwz1eoXC3DmAg9K51qT5/dEVg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</head>
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>   
+        <span class="icon-bar"></span>                            
+      </button>
+      <div class="text-left">
+        <a class="navbar-brand"><strong>Cars Forever</strong></a>
+      </div>
+     
+    </div>
+    <div class="collapse navbar-collapse text-right" id="myNavbar">
+  
+    </div>
+  </div>
+</nav>
+
+<div id="custom" class="container-fluid">
+  <br>
+  <!--BACK BUTTON-->
+  <form action='#' method="POST"> 
+    <input type="hidden" name="switch" value="goback">
+    <button type="submit" class="btn btn-lg text-left">BACK</button>
+  </form>
+  <h2><centre>Customize</centre></h2>
+   <!--Form to select X and Y fields-->
+  <p>Select X and Y axis fields</p>  
+  {%if df1.shape %}
+  <form action='#' method="POST">
+    <div>
+      <label>X-axis</label>
+    <select name="Label"> 
+      {% for i in Labels %}
+      <option value={{i}}>{{i}}</option>
+      {% endfor %}
+      </select>
+    </div>
+    <div >
+      <label>Y-axis</label>
+      <select name="Dataset">
+         {% for i in Dataset %}
+         <option value={{i}}>{{i}}</option>
+         {% endfor %}
+         </select>
+      </div>
+      <!--Hidden input sending switch as "graph"-->
+      <input type="hidden" name="switch" value="graph">
+    <button type="submit" class="btn btn-lg">Add Graph</button>
+</form>
+<input type="hidden" id="myVar" name="variable" value="{{list1}}">
+{%endif%}
+<!-- Bar Chart-->
+<div class="col-sm-7">
+<centre><canvas id="myChart2"></canvas></centre>
+</div>
+<script>
+$(document).ready(function(){
+  // Add smooth scrolling to all links in navbar + footer link
+  $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+      // Prevent default anchor click behavior
+      event.preventDefault();
+
+      // Store hash
+      var hash = this.hash;
+
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 900, function(){
+   
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = hash;
+      });
+    } // End if
+  });
+  
+  $(window).scroll(function() {
+    $(".slideanim").each(function(){
+      var pos = $(this).offset().top;
+
+      var winTop = $(window).scrollTop();
+        if (pos < winTop + 600) {
+          $(this).addClass("slide");
+        }
+    });
+  });
+})
+//plugin to set background color of chart
+const plugin = {
+  id: 'custom_canvas_background_color',
+  beforeDraw: (chart) => {
+    const ctx = chart.canvas.getContext('2d');
+    ctx.save();
+    ctx.globalCompositeOperation = 'destination-over';
+    ctx.fillStyle = '#f9f5ec';
+    ctx.fillRect(0, 0, chart.width, chart.height);
+    ctx.restore();
+  }
+};
+    //Parsing the variables coming from backend
+    var le="{{list1}}";
+    var d=JSON.parse("{{list2}}");
+    var l=le.split(",");
+    //string handling is performed
+for(let i=0; i<l.length; i++) {
+  var x=l[i].length
+  if(i==l.length-1)
+  l[i]=l[i].substring(6,x-6);
+  else
+  l[i]=l[i].substring(6,x-5);
+}
+//if the length of labels is greater than or equal to 1
+if(l.length){
+      //canvas element is defined
+      let canvaselement=document.getElementById("myChart2").getContext('2d');
+      //configuration fo chart is made
+      var config ={
+          type: "bar",
+          data: {
+              labels : l,
+              datasets: [{ data: d,
+              backgroundColor: [
+                      
+              '#26abff',
+
+                  ],
+          }]
+          },
+          plugins: [plugin],
+          options: {
+              plugins: {
+                  title: {
+                      display: true,
+                      text: "Graph"
+                  },
+      
+              },
+             
+          }
+        };
+       //chart element is defined
+        var myChart2=new Chart(canvaselement,config);
+    }
+
+   
+</script>
+
+</body>
+</html>
