@@ -1,7 +1,5 @@
 ### LINK FOR WEBSITE
 
-https://carsforever.herokuapp.com/
-
 ### REQUIREMENTS
 
 1. [Python 3](https://www.python.org/downloads/)
